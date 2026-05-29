@@ -1,0 +1,54 @@
+{% extends 'catalogue/base.html' %}
+
+{% block content %}
+    <div class="text-center mb-12">
+        <h1 class="text-4xl font-extrabold text-slate-900 mb-4">Products Catalogue</h1>
+        <p class="text-lg text-slate-600">Precision crafted for your specific needs.</p>
+    </div>
+    <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100 mb-8 flex flex-col md:flex-row gap-4 items-center">
+    
+    <form method="GET" class="flex flex-wrap gap-4 w-full">
+        <input type="text" name="search" placeholder="Search crafts..." class="flex-grow px-4 py-3 rounded-lg border border-slate-200 focus:ring-2 focus:ring-indigo-500 outline-none">
+        
+        <select name="category" class="px-4 py-3 rounded-lg border border-slate-200 outline-none">
+            <option value="">All Categories</option>
+            {% for cat in categories %}
+                <option value="{{ cat.id }}">{{ cat.name }}</option>
+            {% endfor %}
+        </select>
+        
+        <button type="submit" class="bg-indigo-600 text-white px-6 py-3 rounded-lg font-bold hover:bg-indigo-700">Filter</button>
+        <a href="{% url 'product_list' %}" class="text-slate-400 hover:text-slate-600 self-center">Reset</a>
+    </form>
+</div>
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        
+        {% for product in products %}
+            <div class="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-xl transition-shadow duration-300 border border-slate-100">
+                
+                <div class="relative h-64 bg-slate-200">
+                    {% if product.image_1 %}
+                        <img src="{{ product.image_1.url }}" alt="{{ product.name }}" class="w-full h-full object-cover">
+                    {% else %}
+                        <div class="w-full h-full flex items-center justify-center text-slate-400">No Image</div>
+                    {% endif %}
+                </div>
+
+                <div class="p-6">
+                    <h2 class="text-xl font-bold text-slate-900 mb-2">{{ product.name }}</h2>
+                    <p class="text-2xl font-black text-indigo-600 mb-4">${{ product.price }}</p>
+                    
+                    <div class="flex items-center text-sm text-slate-500 mb-6 space-x-4">
+                        <span>📏 {{ product.length }} x {{ product.width }} x {{ product.thickness }}</span>
+                        <span>📦 Min: {{ product.minimum_order }}</span>
+                    </div>
+                    
+                    <a href="{% url 'product_detail' product.pk %}" class="block w-full text-center bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-3 px-4 rounded-lg transition-colors duration-200">
+                        View Details
+                    </a>
+                </div>
+            </div>
+        {% endfor %}
+
+    </div>
+{% endblock content %}

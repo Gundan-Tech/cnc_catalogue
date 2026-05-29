@@ -1,0 +1,137 @@
+{% extends 'catalogue/base.html' %}
+
+{% block content %}
+    <div class="mb-8">
+        <a href="{% url 'product_list' %}" class="inline-flex items-center text-sm font-semibold text-slate-500 hover:text-indigo-600 transition-colors duration-200">
+            <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg>
+            Back to Catalogue
+        </a>
+    </div>
+
+    <div class="bg-white rounded-3xl shadow-2xl border border-slate-100 overflow-hidden">
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-0">
+            
+            <div class="p-8 lg:p-12 bg-slate-50/50">
+                
+                <div class="rounded-2xl overflow-hidden shadow-md mb-6 bg-white flex items-center justify-center h-[28rem]">
+                    {% if product.image_1 %}
+                        <img id="mainImage" src="{{ product.image_1.url }}" alt="{{ product.name }}" class="w-full h-full object-cover transition-opacity duration-300">
+                    {% else %}
+                        <span class="text-slate-400 font-medium">No Image Available</span>
+                    {% endif %}
+                </div>
+
+                <div class="grid grid-cols-4 gap-4">
+                    {% if product.image_1 %}
+                        <button onclick="changeImage('{{ product.image_1.url }}')" class="focus:outline-none focus:ring-2 focus:ring-indigo-500 rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-all duration-200 h-24">
+                            <img src="{{ product.image_1.url }}" class="w-full h-full object-cover hover:scale-110 transition-transform duration-500">
+                        </button>
+                    {% endif %}
+                    
+                    {% if product.image_2 %}
+                        <button onclick="changeImage('{{ product.image_2.url }}')" class="focus:outline-none focus:ring-2 focus:ring-indigo-500 rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-all duration-200 h-24">
+                            <img src="{{ product.image_2.url }}" class="w-full h-full object-cover hover:scale-110 transition-transform duration-500">
+                        </button>
+                    {% endif %}
+                    
+                    {% if product.image_3 %}
+                        <button onclick="changeImage('{{ product.image_3.url }}')" class="focus:outline-none focus:ring-2 focus:ring-indigo-500 rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-all duration-200 h-24">
+                            <img src="{{ product.image_3.url }}" class="w-full h-full object-cover hover:scale-110 transition-transform duration-500">
+                        </button>
+                    {% endif %}
+                    
+                    {% if product.image_4 %}
+                        <button onclick="changeImage('{{ product.image_4.url }}')" class="focus:outline-none focus:ring-2 focus:ring-indigo-500 rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-all duration-200 h-24">
+                            <img src="{{ product.image_4.url }}" class="w-full h-full object-cover hover:scale-110 transition-transform duration-500">
+                        </button>
+                    {% endif %}
+                </div>
+            </div>
+
+            <div class="p-8 lg:p-12 flex flex-col justify-center">
+                
+                <h1 class="text-4xl lg:text-5xl font-extrabold text-slate-900 tracking-tight mb-4">{{ product.name }}</h1>
+                
+                <div class="flex items-baseline mb-8">
+                    <span class="text-5xl font-black text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 to-purple-600">${{ product.price }}</span>
+                    <span class="ml-2 text-lg text-slate-500 font-medium">/ unit</span>
+                </div>
+
+                <div class="flex flex-wrap gap-3 mb-10">
+                    <div class="inline-flex items-center px-4 py-2 rounded-full bg-slate-100 text-slate-700 font-semibold text-sm border border-slate-200">
+                        <span class="mr-2">📏</span> {{ product.length }} x {{ product.width }} x {{ product.thickness }}
+                    </div>
+                    <div class="inline-flex items-center px-4 py-2 rounded-full bg-indigo-50 text-indigo-700 font-semibold text-sm border border-indigo-100">
+                        <span class="mr-2">📦</span> Min Order: {{ product.minimum_order }}
+                    </div>
+                    <div class="inline-flex items-center px-4 py-2 rounded-full bg-emerald-50 text-emerald-700 font-semibold text-sm border border-emerald-100">
+                        <span class="mr-2">⏱️</span> {{ product.delivery_time }}
+                    </div>
+                </div>
+
+                <div class="prose prose-slate mb-10">
+                    <h3 class="text-lg font-bold text-slate-900 mb-3 border-b border-slate-100 pb-2">About this product</h3>
+                    <p class="text-slate-600 leading-relaxed text-lg">
+                        {{ product.description|default:"Precision crafted and ready for your next project." }}
+                    </p>
+                </div>
+
+                <div class="mt-8 bg-slate-50 p-6 rounded-xl border border-slate-100">
+    <h4 class="font-bold text-slate-900 mb-4">Quick Specifications</h4>
+    <ul class="space-y-2 text-slate-600">
+        <li><strong>Material:</strong> {{ product.material|default:"Wood/Mixed" }}</li>
+        <li><strong>Finish:</strong> {{ product.finish|default:"Natural/Smooth" }}</li>
+        <li><strong>Customizable:</strong> Yes, message for details!</li>
+    </ul>
+</div>
+
+                <div class="flex flex-col sm:flex-row gap-4 mt-8 pt-8 border-t border-slate-100">
+    
+    <a href="tel:+251900652515" class="flex-1 flex items-center justify-center bg-slate-900 text-white font-bold py-4 px-6 rounded-xl hover:bg-slate-800 transition duration-200">
+        <span class="mr-2">📞</span> Call Now
+    </a>
+    <a href="https://wa.me/251900652515?text=Hi, I am interested in your product: {{ product.name }}" target="_blank" class="flex-1 flex items-center justify-center bg-green-500 text-white font-bold py-4 px-6 rounded-xl hover:bg-green-600 transition duration-200">
+    <span class="mr-2">💬</span> WhatsApp Me
+</a>
+
+    <button onclick="shareProduct()" class="flex-1 flex items-center justify-center border-2 border-slate-200 text-slate-700 font-bold py-4 px-6 rounded-xl hover:bg-slate-50 transition duration-200">
+        <span class="mr-2">📤</span> Share Product
+    </button>
+</div>
+
+<script>
+    function shareProduct() {
+        if (navigator.share) {
+            navigator.share({
+                title: '{{ product.name }}',
+                text: 'Check out this craft: {{ product.name }}',
+                url: window.location.href
+            }).catch(console.error);
+        } else {
+            alert("Link copied to clipboard!");
+            navigator.clipboard.writeText(window.location.href);
+        }
+    }
+</script>
+
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // This simple function takes the clicked thumbnail's image URL 
+        // and swaps it into the main image stage!
+        function changeImage(imageUrl) {
+            const mainImage = document.getElementById('mainImage');
+            
+            // Add a quick fade out effect
+            mainImage.style.opacity = 0;
+            
+            // Swap the image after a tiny delay, then fade it back in
+            setTimeout(() => {
+                mainImage.src = imageUrl;
+                mainImage.style.opacity = 1;
+            }, 150); // 150 milliseconds
+        }
+    </script>
+{% endblock content %}
